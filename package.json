@@ -1,0 +1,62 @@
+{
+  "name": "plix",
+  "version": "1.0.0",
+  "description": "Plix Windows installer build",
+  "main": "main.js",
+  "productName": "Plix",
+  "author": "Plix",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win nsis --x64 --publish never"
+  },
+  "devDependencies": {
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.plix.app",
+    "productName": "Plix",
+    "artifactName": "${productName}-Installer-${version}.${ext}",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "**/*",
+      "!dist/**/*",
+      "!release/**/*",
+      "!.github/**/*",
+      "!node_modules/.cache/**/*"
+    ],
+    "asar": true,
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "icon.ico",
+      "publisherName": "Plix",
+      "executableName": "Plix",
+      "requestedExecutionLevel": "asInvoker",
+      "verifyUpdateCodeSignature": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Plix",
+      "installerIcon": "icon.ico",
+      "uninstallerIcon": "icon.ico",
+      "installerHeaderIcon": "icon.ico",
+      "artifactName": "${productName}-Installer-${version}.${ext}",
+      "deleteAppDataOnUninstall": false,
+      "runAfterFinish": true
+    }
+  }
+}

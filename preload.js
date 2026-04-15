@@ -1,0 +1,1 @@
+window.addEventListener('online', () => {});\nwindow.addEventListener('offline', () => {});\n
