@@ -18,7 +18,7 @@ function buildTitle(isOnline) {
 }
 
 function appIcon() {
-  return nativeImage.createFromPath(path.join(__dirname, 'icon.ico'));
+  return nativeImage.createFromPath(path.join(__dirname, 'iconnew.ico'));
 }
 
 function createSplash() {
