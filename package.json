@@ -1,6 +1,6 @@
 {
   "name": "plix",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "Plix Windows installer build",
   "main": "main.js",
   "productName": "Plix",
@@ -32,9 +32,7 @@
       "target": [
         {
           "target": "nsis",
-          "arch": [
-            "x64"
-          ]
+          "arch": ["x64"]
         }
       ],
       "icon": "iconnew.ico",
