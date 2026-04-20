@@ -9,7 +9,6 @@ let offlineWindow = null;
 let titleTimer = null;
 let isLaunching = false;
 
-// Bunlar en üstte kalsın
 app.setName('Plix');
 app.setAppUserModelId('com.plix.app');
 
@@ -37,7 +36,6 @@ function createSplash() {
     icon: appIcon(),
     skipTaskbar: true
   });
-
   splashWindow.loadFile('splash.html');
 }
 
@@ -56,13 +54,11 @@ function createOfflineWindow() {
     icon: appIcon(),
     skipTaskbar: true
   });
-
   offlineWindow.loadFile('offline.html');
 }
 
 async function getOnlineState() {
   if (!mainWindow || mainWindow.isDestroyed()) return true;
-
   try {
     return !!(await mainWindow.webContents.executeJavaScript('navigator.onLine'));
   } catch {
@@ -72,12 +68,8 @@ async function getOnlineState() {
 
 async function refreshTitleAndOfflineState() {
   if (!mainWindow || mainWindow.isDestroyed()) return;
-
   const isOnline = await getOnlineState();
-
-  try {
-    mainWindow.setTitle(buildTitle(isOnline));
-  } catch (_) {}
+  try { mainWindow.setTitle(buildTitle(isOnline)); } catch (_) {}
 
   if (offlineWindow && !offlineWindow.isDestroyed()) {
     if (isOnline) {
@@ -105,26 +97,18 @@ function createMain() {
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
-      sandbox: false,
-      partition: 'persist:plix'
+      sandbox: false
     }
   });
 
   mainWindow.maximize();
 
   mainWindow.webContents.on('before-input-event', (event, input) => {
-    if (input.key === 'Escape' || input.key === 'F11') {
-      event.preventDefault();
-    }
+    if (input.key === 'Escape' || input.key === 'F11') event.preventDefault();
   });
 
-  mainWindow.on('page-title-updated', (e) => {
-    e.preventDefault();
-  });
-
-  mainWindow.on('closed', () => {
-    mainWindow = null;
-  });
+  mainWindow.on('page-title-updated', (e) => e.preventDefault());
+  mainWindow.on('closed', () => { mainWindow = null; });
 
   mainWindow.loadURL('https://portal.plixapp.com/');
 
@@ -133,7 +117,6 @@ function createMain() {
       mainWindow.show();
       mainWindow.focus();
     }
-
     await refreshTitleAndOfflineState();
   });
 
@@ -148,7 +131,6 @@ function createMain() {
 
 async function launchAppWindows() {
   if (isLaunching) return;
-
   if (mainWindow && !mainWindow.isDestroyed()) {
     mainWindow.show();
     mainWindow.focus();
@@ -156,7 +138,6 @@ async function launchAppWindows() {
   }
 
   isLaunching = true;
-
   createSplash();
   createOfflineWindow();
 
@@ -165,7 +146,6 @@ async function launchAppWindows() {
       splashWindow.close();
       splashWindow = null;
     }
-
     createMain();
     isLaunching = false;
   }, 1500);
@@ -173,19 +153,15 @@ async function launchAppWindows() {
 
 function setupMenu() {
   const template = [
-    {
-      label: 'Plix',
-      submenu: [
-        { role: 'about', label: 'Plix Hakkında' },
-        { type: 'separator' },
-        { role: 'quit', label: 'Çıkış' }
-      ]
-    },
+    { label: 'Plix', submenu: [
+      { role: 'about', label: 'Plix Hakkında' },
+      { type: 'separator' },
+      { role: 'quit', label: 'Çıkış' }
+    ]},
     { role: 'editMenu', label: 'Düzenle' },
     { role: 'viewMenu', label: 'Görünüm' },
     { role: 'windowMenu', label: 'Pencere' }
   ];
-
   Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 }
 
